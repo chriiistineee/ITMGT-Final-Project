@@ -1,0 +1,187 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Submission</title>
+  <link rel="stylesheet" href="{% static 'report/styles/base.css' %}">
+  <link rel="icon" type="image/png" href="{% static 'report/images/ZeroGhost_tab_logo.png' %}">
+  <style>
+    #map {
+      width: 100%;
+      height: 400px;
+      margin-top: 20px;
+      border: 1px solid #ccc;
+    }
+    .errorlist {
+      color: red;
+      list-style: none;
+      padding: 0;
+    }
+    #RSP {
+      text-align: center;
+      color: #e4e2dd;
+      font-family: 'Impact';
+      letter-spacing: 1.5px;
+    }
+    #submit-report {
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: #007bff; 
+      color: #e4e2dd;
+      text-decoration: none;
+      border-radius: 50px; 
+      font-weight: 600;
+      transition: 0.3s ease;
+    }
+  #submit-report:hover {
+    background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+    <nav>
+      <img src="{% static 'report/images/ZeroGhost_Logo.png' %}" alt="ZeroGhost Logo">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/admin/">Admin</a></li>
+        <li id="submit"><a href="/submission/">Report</a></li>
+      </ul>
+    </nav>
+
+  <h1 id="RSP"> REPORT SUBMISSION PAGE</h1>
+
+  <div id="report-form">
+  <form method="POST" enctype="multipart/form-data" action="/submission/">
+    {% csrf_token %}
+    
+    <label for="region">Choose region:</label>
+    <select id="region" name="region" required>
+      <option value="car">CAR</option>
+      <option value="central">Central Office</option>
+      <option value="ncr">NCR</option>
+      <option value="negros">Negros Island Region</option>
+      <option value="1">Region I</option>    
+      <option value="2">Region II</option>    
+      <option value="3">Region III</option>    
+      <option value="4.1">Region IV-A</option>    
+      <option value="4.2">Region IV-B</option> 
+      <option value="5">Region V</option> 
+      <option value="6">Region VI</option> 
+      <option value="7">Region VII</option> 
+      <option value="8">Region VIII</option> 
+      <option value="9">Region IX</option> 
+      <option value="10">Region X</option> 
+      <option value="11">Region XI</option> 
+      <option value="12">Region XII</option> 
+      <option value="13">Region XIII</option> 
+    </select>
+    {% if form.region.errors %}
+      <ul class="errorlist">{% for error in form.region.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+    {% endif %}
+
+    <br> 
+    <button type="button" onclick="useMyLocation()">Use My Current Location</button> 
+
+    <script>
+        function useMyLocation() {
+            event.preventDefault();
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showLocation, showError);
+            } else {
+                alert("Geolocation is not supported by your browser.");
+            }
+        }
+       
+        function showLocation(position) {
+          const lat = position.coords.latitude;
+          const lon = position.coords.longitude;
+
+          document.getElementById("latitude").value = lat;
+          document.getElementById("longitude").value = lon;
+
+          loadMap(lat, lon);
+        }
+
+        function showError(error) {
+            alert("Unable to get your location. Please allow location permission.");
+        }
+
+        function loadMap(lat, lon) {
+            const mapEmbed = `
+                <iframe
+                    width="100%"
+                    height="400"
+                    style="border:0"
+                    loading="lazy"
+                    allowfullscreen
+                    src="https://www.google.com/maps?q=${lat},${lon}&z=15&output=embed">
+                </iframe>
+            `;
+            document.getElementById("map").innerHTML = mapEmbed;
+        }
+    </script>
+
+    <p>Your Current Location</p>
+
+    <div id="map">Map will appear here...</div>
+
+    <div class="input-group">
+        <label>Latitude *</label><br>
+        <input type="text" id="latitude" name="latitude" placeholder="Latitude" required readonly>
+        {% if form.latitude.errors %}
+          <ul class="errorlist">{% for error in form.latitude.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        {% endif %}
+    </div>
+
+    <div class="input-group">
+        <label>Longitude *</label><br>
+        <input type="text" id="longitude" name="longitude" placeholder="Longitude" required readonly>
+        {% if form.longitude.errors %}
+          <ul class="errorlist">{% for error in form.longitude.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        {% endif %}
+    </div>
+    <br>
+    <label for="status">Input status:</label>
+    <select id="status" name="status" required>
+      <option value="complete">Complete</option>
+      <option value="incomplete">Incomplete</option>
+    </select>
+    {% if form.status.errors %}
+      <ul class="errorlist">{% for error in form.status.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+    {% endif %}
+
+    <br>
+
+    <label for="desc">Description <small class="optional-inline">(Optional)</small></label>
+    <input id="desc" name="description" type="text" maxlength="120" placeholder="120 characters only">
+    {% if form.description.errors %}
+      <ul class="errorlist">{% for error in form.description.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+    {% endif %}
+
+    <br>
+
+    <label>Upload Photo *</label>
+    <input type="file" name="photo" accept="image/*" required>
+    {% if form.photo.errors %}
+      <ul class="errorlist">{% for error in form.photo.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+    {% endif %}
+    <br><br>
+    <button type="submit" id="submit-report">Submit Report</button>
+  </form>
+    </div>
+    <footer>
+    <nav id="footer-nav">
+      <ul>
+        <li><a href="/">Home&nbsp;&nbsp;&nbsp;&nbsp;| </a></li>
+        <li><a href="/admin/">Admin&nbsp;&nbsp;&nbsp;&nbsp;| </a></li>
+        <li><a href="/submission/">Report</a></li>
+      </ul>
+    </nav> 
+      <p>Developed by KICK.</p>
+      <p>&copy; 2025 ZeroGhost. All Rights Reserved. support@team.kick.com</p>
+      <img src="{% static 'report/images/ZeroGhost_Logo.png' %}">
+    </footer>
+</body>
+</html>

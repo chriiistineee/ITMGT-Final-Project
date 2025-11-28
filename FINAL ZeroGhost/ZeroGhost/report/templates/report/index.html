@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'report/styles/base.css' %}">
+    <link rel="icon" type="image/png" href="{% static 'report/images/ZeroGhost_tab_logo.png' %}">
+  </head>
+  <body>
+    <nav>
+      <img src="{% static 'report/images/ZeroGhost_Logo.png' %}" alt="ZeroGhost Logo">
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/admin/">Admin</a></li>
+        <li id="submit"><a href="/submission/">Report</a></li>
+      </ul>
+    </nav>
+    <div class="banner">
+      <h1>BUILDING TRANSPARENCY, ONE REPORT AT A TIME</h1>
+      <ul>
+      <a id="banner-btn" href="/submission/">Report</a>
+      </ul>
+    </div>
+
+    <header>
+      <h2 id="mission">OUR MISSION</h2>
+      <p>
+        To provide a safe and anonymous reporting channel for citizens to submit observations and evidence regarding DPWH projects, specifically targeting inconsistencies and "ghost projects." Approved reports are then publicly exposed on our platform to initiate collective scrutiny and demand official action.
+      </p> 
+    </header>
+    <div id="banner-2">
+      <div id="how-to">
+        <h2 id="how">HOW TO REPORT?</h2>
+        <ol> 
+          <li>Document the Project: Capture clear photo evidence or videos of the project's status or inconsistency.</li>
+          <li>Access the Anonymous Report Form: Navigate to the Submit Report page.</li>
+          <li>Complete Project Details: Fill out all required fields, including location, project name, and reported issue.</li>  
+          <li>Attach Evidence: Upload your captured photos or documentation to the form.</li>
+          <li>(Optional) Provide Context: Use the comments section for detailed observations.</li>
+          <li>Securely Submit: Review your report and submit it for moderation.</li>
+          <li>Track Public Reports: Visit the Facebook Page to view all community reports approved for public exposure.</li>
+        </ol>
+      </div>
+    </div>
+    <footer>
+    <nav id="footer-nav">
+      <ul>
+        <li><a href="/">Home&nbsp;&nbsp;&nbsp;&nbsp;| </a></li>
+        <li><a href="/admin/">Admin&nbsp;&nbsp;&nbsp;&nbsp;| </a></li>
+        <li><a href="/submission/">Report</a></li>
+      </ul>
+    </nav> 
+      <p>Developed by KICK.</p>
+      <p>&copy; 2025 ZeroGhost. All Rights Reserved. support@team.kick.com</p>
+      <img src="{% static 'report/images/ZeroGhost_Logo.png' %}">
+    </footer>
+  </body>
+</html>
